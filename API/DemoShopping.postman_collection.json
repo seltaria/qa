@@ -1,0 +1,1101 @@
+{
+	"info": {
+		"_postman_id": "95639568-ae45-46f2-a99c-5e29d0a48c54",
+		"name": "DemoShopping",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27108269",
+		"_collection_link": "https://www.postman.com/team99-1678/workspace/my-public-workspace/collection/27108269-95639568-ae45-46f2-a99c-5e29d0a48c54?action=share&source=collection_link&creator=27108269"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Add product",
+					"item": [
+						{
+							"name": "🟢 Add product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = JSON.stringify(pm.response.text());\r",
+											"const productId = response.replace(/\\D/g, \"\");\r",
+											"pm.collectionVariables.set(\"productId\", productId);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Example Product\",\r\n  \"description\": \"This is an example product.\",\r\n  \"price\": 100,\r\n  \"category\": \"Electronics\",\r\n  \"manufacturer\": \"Example Manufacturer\",\r\n  \"imageUrl\": \"http://example.com/image.jpg\",\r\n  \"freeShipping\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/add-product",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"add-product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🔴 Add product - Data error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"manufacturer\": \"Example Manufacturer\",\r\n  \"imageUrl\": \"http://example.com/image.jpg\",\r\n  \"freeShipping\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/add-product",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"add-product"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get product by id",
+					"item": [
+						{
+							"name": "🟢 Get product",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/id/{{productId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"{{productId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🔴 Get product - Not found",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/id/10989",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"10989"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Change product data",
+					"item": [
+						{
+							"name": "🟢 Change full product data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"New name\",\r\n  \"description\": \"New description\",\r\n  \"price\": 100,\r\n  \"category\": \"Electronics\",\r\n  \"manufacturer\": \"Example Manufacturer\",\r\n  \"imageUrl\": \"http://example.com/image.jpg\",\r\n  \"freeShipping\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/id/{{productId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"{{productId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Change some product data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"price\": 999\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/id/{{productId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"{{productId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Data has been changed",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Product values changed correctly\", function () {\r",
+											"    const product = pm.response.json();\r",
+											"    pm.expect(product).to.include.keys('description', 'name', 'price');\r",
+											"    pm.expect(product.description).to.eql(\"New description\");\r",
+											"    pm.expect(product.name).to.eql(\"New name\");\r",
+											"    pm.expect(product.price).to.eql(\"999.00\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/id/{{productId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"{{productId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete product",
+					"item": [
+						{
+							"name": "🟢 Delete product by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/id/{{productId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"{{productId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Check product delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Deleted product is not found\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.unset(\"productId\");\r",
+											"\r",
+											"pm.test(\"Variable 'productId' is cleared\", function() {\r",
+											"    pm.expect(pm.collectionVariables.get(\"productId\")).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products/id/{{productId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"id",
+										"{{productId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Search",
+					"item": [
+						{
+							"name": "🟢 Get products list",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response data is array\", function () {\r",
+											"    Array.isArray(pm.response.json())\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Products have correct structure\", function () {\r",
+											"    const products = pm.response.json();\r",
+											"    products.forEach(product => {\r",
+											"        pm.expect(product).to.include.keys('product_id', 'name', 'price');\r",
+											"        pm.expect(product.product_id).to.be.a('number');\r",
+											"        pm.expect(product.name).to.be.a('string');\r",
+											"        pm.expect(product.price).to.be.a('string');\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"const count = pm.response.json().length;\r",
+											"pm.collectionVariables.set(\"totalCount\", count);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Find by category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+											"\r",
+											"pm.test(\"Response is JSON\", () => {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"All items have category Phones\", () => {\r",
+											"    const products = pm.response.json();\r",
+											"    products.forEach(product => {\r",
+											"        pm.expect(product.category).to.eql(\"Phones\");\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/FindByCategory?category=Phones",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"FindByCategory"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "Phones",
+											"description": "(Required) Категория продукта"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Find by manufacturer",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+											"\r",
+											"pm.test(\"Response is JSON\", () => {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"All items have manufacturer Huawei\", () => {\r",
+											"    const products = pm.response.json();\r",
+											"    products.forEach(product => {\r",
+											"        pm.expect(product.manufacturer).to.eql(\"Huawei\");\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/FindByManufacturer?manufacturer=Huawei",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"FindByManufacturer"
+									],
+									"query": [
+										{
+											"key": "manufacturer",
+											"value": "Huawei",
+											"description": "(Required) Производитель продукта"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Find by shipping",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+											"\r",
+											"pm.test(\"Response is JSON\", () => {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"All items have free shipping\", () => {\r",
+											"    const products = pm.response.json();\r",
+											"    products.forEach(product => {\r",
+											"        pm.expect(product.freeShipping).to.eql(1);\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/FindByShipping?freeShipping=true",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"FindByShipping"
+									],
+									"query": [
+										{
+											"key": "freeShipping",
+											"value": "true",
+											"description": "(Required) Наличие бесплатной доставки (true/false)"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Find by incorrect param",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", () => pm.response.to.have.status(404));\r",
+											"\r",
+											"pm.test(\"Error message about invalid parameter\", () => {\r",
+											"    const error = pm.response.text();\r",
+											"    console.log(error)\r",
+											"    pm.expect(error).to.include(\"Cannot GET\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/FindByColor?color=red",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"FindByColor"
+									],
+									"query": [
+										{
+											"key": "color",
+											"value": "red"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Combined search params",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+											"\r",
+											"pm.test(\"Response is JSON\", () => {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Items match all filters\", () => {\r",
+											"    const products = pm.response.json();\r",
+											"    products.forEach(product => {\r",
+											"        console.log(product)\r",
+											"        pm.expect(product.category).to.eql(\"Phones\");\r",
+											"        pm.expect(product.manufacturer).to.eql(\"Huawei\");\r",
+											"        pm.expect(product.freeShipping).to.eql(0);\r",
+											"        pm.expect(Number(product.price)).to.above(100);\r",
+											"        pm.expect(Number(product.price)).to.below(10000);\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/filter?category=Phones&manufacturer=Huawei&freeShipping=false&minPrice=100&maxPrice=10000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"filter"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "Phones",
+											"description": "Категория продукта"
+										},
+										{
+											"key": "manufacturer",
+											"value": "Huawei",
+											"description": "Производитель продукта"
+										},
+										{
+											"key": "freeShipping",
+											"value": "false",
+											"description": "Наличие бесплатной доставки"
+										},
+										{
+											"key": "minPrice",
+											"value": "100",
+											"description": "Минимальная цена продукта"
+										},
+										{
+											"key": "maxPrice",
+											"value": "10000",
+											"description": "Максимальная цена продукта"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "🟢 Empty filter",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+											"\r",
+											"pm.test(\"Count with empty filter equals to total count\", () => {\r",
+											"    const count = pm.response.json().length;\r",
+											"    const totalCount = pm.collectionVariables.get(\"totalCount\");\r",
+											"    pm.expect(count).to.eql(totalCount);\r",
+											"})\r",
+											"\r",
+											"pm.collectionVariables.unset(\"totalCount\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/filter?category=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"filter"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add product",
+					"item": [
+						{
+							"name": "Add product to cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"productId\": 1,\r\n  \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get cart",
+					"item": [
+						{
+							"name": "Get cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const id = pm.response.json().find((el) => el.product_id === 1).cart_item_id;\r",
+											"pm.collectionVariables.set(\"productIdCart\", id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{key}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getCart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getCart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Change quantity",
+					"item": [
+						{
+							"name": "Change product quantity in cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"quantity\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cart/{{productIdCart}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"{{productIdCart}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check quantity is correct",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Product quantity changed correctly\", function () {\r",
+											"    const cart = pm.response.json();\r",
+											"    const cartItemId = pm.collectionVariables.get(\"productIdCart\");\r",
+											"    pm.expect(cart.find((el) => el.cart_item_id === cartItemId).quantity).to.eql(5);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"productId\": 1,\r\n  \"quantity\": 2\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/getCart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getCart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete product from cart",
+					"item": [
+						{
+							"name": "Delete product from cart",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart/{{productIdCart}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										"{{productIdCart}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check product has been deleted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Cart is empty\", function () {\r",
+											"    pm.expect(pm.response.json().message).to.eql(\"Корзина пуста\");\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.unset(\"productIdCart\");\r",
+											"\r",
+											"pm.test(\"Variable 'productIdCart' is cleared\", function() {\r",
+											"    pm.expect(pm.collectionVariables.get(\"productIdCart\")).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"productId\": 1,\r\n  \"quantity\": 2\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/getCart",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getCart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{key}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://intern.demoshopping.ru",
+			"type": "string"
+		},
+		{
+			"key": "key",
+			"value": "{{vault:json-web-token}}",
+			"type": "string"
+		}
+	]
+}

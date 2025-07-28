@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "77d63cb9-1182-4cc7-804d-85c74220cb67",
+		"name": "SOAP",
+		"description": "Collection of endpoints and tests of countries WSDL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27108269",
+		"_collection_link": "https://www.postman.com/team99-1678/workspace/my-public-workspace/collection/27108269-77d63cb9-1182-4cc7-804d-85c74220cb67?action=share&source=collection_link&creator=27108269"
+	},
+	"item": [
+		{
+			"name": "🟢 ListOfContinentsByName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <web:ListOfContinentsByName/>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "🟢 CountryName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SOAP Response is valid XML\", () => {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.include(\"<m:CountryNameResult>\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country name is returned\", () => {\r",
+							"    const xml = pm.response.text();\r",
+							"    const countryName = xml.match(/<m:CountryNameResult>(.*?)<\\/m:CountryNameResult>/)[1];\r",
+							"    pm.expect(countryName).to.eql(\"Russian Federation\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <web:CountryName>\r\n         <web:sCountryISOCode>{{country}}</web:sCountryISOCode>\r\n      </web:CountryName>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "🔴 CountryName - Not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SOAP Response is valid XML\", () => {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.include(\"<m:CountryNameResult>\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country name is returned\", () => {\r",
+							"    const xml = pm.response.text();\r",
+							"    const countryName = xml.match(/<m:CountryNameResult>(.*?)<\\/m:CountryNameResult>/)[1];\r",
+							"    pm.expect(countryName).to.eql(\"Country not found in the database\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <web:CountryName>\r\n         <web:sCountryISOCode>QWE</web:sCountryISOCode>\r\n      </web:CountryName>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "🟢 FullCountryInfo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SOAP Response is valid XML\", () => {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.include(\"<m:FullCountryInfoResult>\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country name is returned\", () => {\r",
+							"    const xml = pm.response.text();\r",
+							"    pm.expect(xml).to.include(\"RU\");\r",
+							"    pm.expect(xml).to.include(\"Russian Federation\");\r",
+							"    pm.expect(xml).to.include(\"Moscow\");\r",
+							"    pm.expect(xml).to.include(\"7\");\r",
+							"    pm.expect(xml).to.include(\"AS\");\r",
+							"    pm.expect(xml).to.include(\"RUB\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soap:Header/>\r\n   <soap:Body>\r\n      <web:FullCountryInfo>\r\n         <web:sCountryISOCode>{{country}}</web:sCountryISOCode>\r\n      </web:FullCountryInfo>\r\n   </soap:Body>\r\n</soap:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "🔴 FullCountryInfo - Not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SOAP Response is valid XML\", () => {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.include(\"<m:FullCountryInfoResult>\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country name is returned\", () => {\r",
+							"    const xml = pm.response.text();\r",
+							"    const countryName = xml.match(/<m:sName>(.*?)<\\/m:sName>/)[1];\r",
+							"    pm.expect(countryName).to.eql(\"Country not found in the database\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soap:Header/>\r\n   <soap:Body>\r\n      <web:FullCountryInfo>\r\n         <web:sCountryISOCode>qwerty</web:sCountryISOCode>\r\n      </web:FullCountryInfo>\r\n   </soap:Body>\r\n</soap:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "🟢 LanguageName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SOAP Response is valid XML\", () => {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.include(\"<m:LanguageNameResult>\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country name is returned\", () => {\r",
+							"    const xml = pm.response.text();\r",
+							"    const countryName = xml.match(/<m:LanguageNameResult>(.*?)<\\/m:LanguageNameResult>/)[1];\r",
+							"    pm.expect(countryName).to.eql(\"Russian\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soap:Header/>\r\n   <soap:Body>\r\n      <web:LanguageName>\r\n         <web:sISOCode>rus</web:sISOCode>\r\n      </web:LanguageName>\r\n   </soap:Body>\r\n</soap:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "🔴 LanguageName - Not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"SOAP Response is valid XML\", () => {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.include(\"<m:LanguageNameResult>\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country name is returned\", () => {\r",
+							"    const xml = pm.response.text();\r",
+							"    const countryName = xml.match(/<m:LanguageNameResult>(.*?)<\\/m:LanguageNameResult>/)[1];\r",
+							"    pm.expect(countryName).to.eql(\"Language ISO Code not found!\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:web=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n   <soap:Header/>\r\n   <soap:Body>\r\n      <web:LanguageName>\r\n         <web:sISOCode>qwerty</web:sISOCode>\r\n      </web:LanguageName>\r\n   </soap:Body>\r\n</soap:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{wsdl}}",
+					"host": [
+						"{{wsdl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "wsdl",
+			"value": "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL",
+			"type": "string"
+		},
+		{
+			"key": "country",
+			"value": "RU",
+			"type": "string"
+		}
+	]
+}

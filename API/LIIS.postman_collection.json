@@ -1,0 +1,2268 @@
+{
+	"info": {
+		"_postman_id": "f55b2d73-c14e-49d3-84f0-4ce4ccac7b04",
+		"name": "LIIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27108269",
+		"_collection_link": "https://www.postman.com/team99-1678/workspace/my-public-workspace/collection/27108269-f55b2d73-c14e-49d3-84f0-4ce4ccac7b04?action=share&source=collection_link&creator=27108269"
+	},
+	"item": [
+		{
+			"name": "LIIS Test v.1",
+			"item": [
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Get posts",
+							"item": [
+								{
+									"name": "🟢 Get posts",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response is an array\", () => {\r",
+													"    pm.expect(Array.isArray(pm.response.json())).to.be.eql(true)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create post",
+							"item": [
+								{
+									"name": "🟢 Post post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201, post created\", () => {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"post_id\", pm.response.json().id);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"title\",\n    \"content\": \"content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Post post - missing data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 422\", () => {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains 'Missing data for required field.'\", () => {\r",
+													"    const response = pm.response.json();\r",
+													"    pm.expect(response.title).to.include(\"Missing data for required field.\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{auth_login}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"content\": \"content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Change post data",
+							"item": [
+								{
+									"name": "🟢 Put post",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"new title\",\n    \"content\": \"new content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Put post - unknown field",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 422\", () => {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains 'Unknown field.'\", () => {\r",
+													"    const responseBody = pm.response.json();\r",
+													"    pm.expect(responseBody.new).to.include(\"Unknown field.\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"new\": \"new content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Put post - unauthorized",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_2}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"new\": \"new content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get post by id",
+							"item": [
+								{
+									"name": "🟢 Get post by id",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Data has been changed\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.title).to.equal(\"new title\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Get post by id - not found",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains 'Post not found'\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include('Post not found');\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/1234567",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"1234567"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete post",
+							"item": [
+								{
+									"name": "🟢 Delete post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204, post deleted\", () => {\r",
+													"    pm.response.to.have.status(204);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.unset(\"post_id\");\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Delete post - not found",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains 'Post not found'\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include('Post not found');\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/1234567",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"1234567"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Delete post - unauthorized",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_2}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/1234567",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"1234567"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Delete post - forbidden",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 403\", () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_2}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"{{version}}",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Get comments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/qa0/v1/api/{{tester}}/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "yourusername",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{vault:authorization-password}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourcommenttitle\",\n    \"content\": \"yourcommenttext\",\n    \"post\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/v1/api/{{tester}}/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/qa0/v1/api/{{tester}}/comment/3",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "ruby",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourdsadsadsafname\",\n    \"content\": \"yournewpfasdsadasdsadsadontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/v1/api/{{tester}}/comment/6",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{vault:authorization-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yourusername",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/qa0/v1/api/{{tester}}/comment/2",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"{{tester}}",
+										"comment",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "sign-in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": {{user_1}},\n    \"email\": \"youremadsil\",\n    \"password\": {{auth_password}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/sign-in",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"qa0",
+								"{{version}}",
+								"api",
+								"{{tester}}",
+								"sign-in"
+							]
+						},
+						"description": "Required fields: username, email, password"
+					},
+					"response": [
+						{
+							"name": "user 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": {{user_1}},\n    \"email\": \"youremadsil\",\n    \"password\": {{auth_password}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/sign-in",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"{{version}}",
+										"api",
+										"{{tester}}",
+										"sign-in"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "user 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": {{user_2}},\n    \"email\": \"youremail\",\n    \"password\": {{auth_password}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/{{version}}/api/{{tester}}/sign-in",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"{{version}}",
+										"api",
+										"{{tester}}",
+										"sign-in"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "LIIS Test v.2",
+			"item": [
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Get posts",
+							"item": [
+								{
+									"name": "🟢 Get posts",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response is an array\", () => {\r",
+													"    pm.expect(Array.isArray(pm.response.json())).to.be.eql(true)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🟢 Get posts pagination",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response is an array\", () => {\r",
+													"    pm.expect(Array.isArray(pm.response.json())).to.be.eql(true)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/posts?page=1",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"posts"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create post",
+							"item": [
+								{
+									"name": "🟢 Post post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201, post created\", () => {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"post_id\", pm.response.json().id);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_2}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"name\",\n    \"content\": \"content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Post post - missing data",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 422\", () => {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"content\": \"content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Post post - unauthorized",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"name\",\n    \"content\": \"content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/posts",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Change post data",
+							"item": [
+								{
+									"name": "🟢 Put post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_2}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"new name\",\n    \"content\": \"new content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Put post - unauthorized",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"new name\",\n    \"content\": \"new content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Put post - forbidden",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 403\", () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"new name\",\n    \"content\": \"new content\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get post by id",
+							"item": [
+								{
+									"name": "🟢 Get post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", () => {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Data has been changed\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.name).to.equal(\"new name\");\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Get post - not found",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains 'Post not found'\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include('Post not found');\r",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/1234567",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"1234567"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete post",
+							"item": [
+								{
+									"name": "🟢 Delete post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204, post deleted\", () => {\r",
+													"    pm.response.to.have.status(204);\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.unset(\"post_id\");\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Delete post - not found",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", () => {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/1234567",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"1234567"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Delete post - unauthorized",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", () => {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "🔴 Delete post - forbidden",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 403\", () => {\r",
+													"    pm.response.to.have.status(403);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{user_1}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{auth_password}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/post/{{post_id}}",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"{{tester}}",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Post comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{vault:authorization-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yourusername",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourcommenttitle\",\n    \"text\": \"yourcommenttext\",\n    \"post\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/comments",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comment",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/comment/1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comment",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{vault:authorization-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yourusername",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"yourdsadsadsafname\",\n    \"text\": \"yournewpfasdsadasdsadsadontent\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/comment/21",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comment",
+										"21"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/comments?page=1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{vault:authorization-password}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yourusername",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/comment/1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"{{tester}}",
+										"comment",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "sign-in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"yourusername\",\n    \"email\": \"youremail\",\n    \"password\": \"yourpassword\",\n    \"first_name\": \"yourfirstname\",\n    \"middle_name\": \"yourmiddlename\",\n    \"last_name\": \"yourlastname\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/sign-in",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{tester}}",
+								"sign-in"
+							]
+						},
+						"description": "Required fields: username, email, password.\nOptional fields: first_name, middle_name, last_name."
+					},
+					"response": []
+				},
+				{
+					"name": "Grant user admin role",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{vault:authorization-password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "yourusername",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/qa0/v2/api/{{tester}}/make_admin",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"qa0",
+								"v2",
+								"api",
+								"{{tester}}",
+								"make_admin"
+							]
+						},
+						"description": "Grant user admin role so that he can put and delete foreign entities."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{user_1}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{auth_password}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const baseURL = pm.collectionVariables.get(\"baseURL\");\r",
+					"const tester = pm.collectionVariables.get(\"tester\");\r",
+					"\r",
+					"const login = pm.collectionVariables.get(\"auth_login\");\r",
+					"const password = pm.collectionVariables.get(\"auth_password\");\r",
+					"const base64Credentials = btoa(`${login}:${password}`);\r",
+					"\r",
+					"function checkStatusCode (code) {\r",
+					"    pm.test(`Status code is ${code}`, () => {\r",
+					"        pm.response.to.have.status(code);\r",
+					"    });\r",
+					"}\r",
+					"\r",
+					"function createNewPost () {\r",
+					"    let postId;\r",
+					"\r",
+					"    pm.sendRequest({\r",
+					"        url: `${baseURL}/qa0/v1/api/${tester}/posts`,\r",
+					"        method: 'POST',\r",
+					"        header: {\r",
+					"            'Accept': 'application/json',\r",
+					"            'Content-Type': 'application/json',\r",
+					"            'Authorization': `Basic ${base64Credentials}`,\r",
+					"        },\r",
+					"        body: JSON.stringify({\r",
+					"            \"title\": \"yourpostname\",\r",
+					"            \"content\": \"yourpostcontent\"\r",
+					"        })\r",
+					"    }, (err, res) => {\r",
+					"        pm.test(\"Post successfully created before test\", () => {\r",
+					"            pm.expect(res.status, 404);\r",
+					"        })\r",
+					"        postId = res.json().id;\r",
+					"        pm.collectionVariables.set(\"post_id\", postId);\r",
+					"    })\r",
+					"\r",
+					"    return postId;\r",
+					"}\r",
+					"\r",
+					"function deletePostById (id) {\r",
+					"    pm.sendRequest({\r",
+					"        url: `${baseURL}/qa0/v1/api/${tester}/post/${id}`,\r",
+					"        method: 'DELETE',\r",
+					"        header: {\r",
+					"            'Accept': 'application/json',\r",
+					"            'Content-Type': 'application/json',\r",
+					"            'Authorization': `Basic ${base64Credentials}`,\r",
+					"        }\r",
+					"    }, (err, res) => {\r",
+					"        pm.test(\"Post successfully deleted\", () => {\r",
+					"            pm.expect(res.status, 204);\r",
+					"        })\r",
+					"        pm.collectionVariables.unset(\"post_id\");\r",
+					"    })\r",
+					"}\r",
+					"\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://hr.recruit.liis.su",
+			"type": "default"
+		},
+		{
+			"key": "tester",
+			"value": "seltaria+1@mail.ru",
+			"type": "string"
+		},
+		{
+			"key": "user_1",
+			"value": "ruby",
+			"type": "string"
+		},
+		{
+			"key": "user_2",
+			"value": "user",
+			"type": "string"
+		},
+		{
+			"key": "auth_password",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "version",
+			"value": "v1",
+			"type": "string"
+		},
+		{
+			"key": "version",
+			"value": "v2",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "post_id",
+			"value": ""
+		}
+	]
+}
