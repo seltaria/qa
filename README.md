@@ -4,7 +4,7 @@
 1. [Testing API with Postman](#testing-api-with-postman)
    <!-- 1. [Unit Testing with Jest](#unit-testing-with-jest) -->
    <!-- 1. [Mobile Testing](#mobile-testing) -->
-   <!-- 1. [Automated UI Testing with Playwright](#automated-ui-testing-with-playwright) -->
+1. [Automated UI Testing with Playwright](#automated-ui-testing-with-playwright)
 1. [SQL](#sql)
 1. [UI Testing](#ui-testing)
 
@@ -69,7 +69,15 @@ Previously used Jest while working on React projects as a Frontend Developer
 
 --- -->
 
-<!-- ## Automated UI Testing with Playwright <img src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/2/playwright-y50bnthygb3rvsppvkm9e.png/playwright-q55xzpenhgjsodksybst.png?_a=DATAdtAAZAA0" width="24px" /> -->
+## Automated UI Testing with Playwright <img src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/2/playwright-y50bnthygb3rvsppvkm9e.png/playwright-q55xzpenhgjsodksybst.png?_a=DATAdtAAZAA0" width="24px" />
+
+[Automated end-to-end testing of Roadmap.sh](https://github.com/seltaria/qa/blob/a7880ad962245d5e9eb63041f233edc1554ec8b6/Playwright/roadmap) using Playwright:
+
+- Wrote automated tests for features: authentication, adding roadmap to favorite, marking skill as completed
+- Used `page.locator()`, `getByRole`, `getByText`, `expect(...)`, and `waitForSelector()` for UI interactions
+- Implemented the Page Object Model (POM) for reusability and maintainability
+
+---
 
 ## SQL <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sql_data_base_with_logo.png/640px-Sql_data_base_with_logo.png" width="36px" />
 
