@@ -3,7 +3,7 @@
 1. [QA Documentation](#qa-documentation)
 1. [Testing API with Postman](#testing-api-with-postman)
    <!-- 1. [Unit Testing with Jest](#unit-testing-with-jest) -->
-   <!-- 1. [Mobile Testing](#mobile-testing) -->
+1. [Mobile Testing](#mobile-testing)
 1. [Automated UI Testing with Playwright](#automated-ui-testing-with-playwright)
 1. [SQL](#sql)
 1. [UI Testing](#ui-testing)
@@ -12,15 +12,15 @@
 
 I was working with various types of test documentation:
 
-- Test cases
-- Checklists
+- [Test cases](https://github.com/seltaria/qa/blob/main/Documentation/Test_cases.pdf)
+- [Checklists](https://github.com/seltaria/qa/blob/main/Documentation/Checklist.pdf)
 - Bug reports with detailed reproduction steps and expected results
 - Test plans and execution reports
 <!-- - BDD scenarios written in **Gherkin** format -->
 
 Tools and platforms:
 
-- **Test case management**: TestRail, Qase.io
+- **Test case management**: TestRail, [Qase.io](https://github.com/seltaria/qa/blob/main/Documentation/Qase.pdf)
 - **Bug tracking**: Jira
 - **Collaboration**: Confluence
 
@@ -65,9 +65,19 @@ Previously used Jest while working on React projects as a Frontend Developer
 
 --- -->
 
-<!-- ## Mobile testing
+## Mobile testing
 
---- -->
+I have experience in testing mobile applications, primarily on Android using Android Studio and real devices.
+
+- **Android Studio**: installing builds, using Logcat to capture logs
+- **Charles Proxy**: intercepting and analyzing network traffic
+- **Manual testing** on physical devices and emulators
+- Browser DevTools for mobile web verification
+
+- Created [checklists](https://github.com/seltaria/qa/blob/main/Documentation/Checklist.pdf) and [test cases](https://github.com/seltaria/qa/blob/main/Documentation/Qase.pdf) for mobile features
+- Reported bugs with detailed steps and screenshots
+
+---
 
 ## Automated UI Testing with Playwright <img src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/2/playwright-y50bnthygb3rvsppvkm9e.png/playwright-q55xzpenhgjsodksybst.png?_a=DATAdtAAZAA0" width="24px" />
 
